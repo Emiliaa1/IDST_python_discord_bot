@@ -133,10 +133,18 @@ async def resume(ctx):
 ################################################################################
 
 if __name__ == '__main__':
-    # check that token exists in environment
-    # if 'BOT_TOKEN' not in os.environ:
-    #     log_msg('save your token in the BOT_TOKEN env variable!', 'error')
-    #     exit(-1)
-
     # launch bot (blocking operation)
-    bot.run(os.getenv("BOT_TOKEN"))
+    import argparse
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--token")
+    args = parser.parse_args()
+
+    if args.token is None:
+         
+        if 'BOT_TOKEN' not in os.environ:
+            log_msg('save your token in the BOT_TOKEN env variable!', 'error')
+            exit(-1)
+    
+        bot.run(os.environ['BOT_TOKEN'])
+    else:
+        bot.run(args.token)
